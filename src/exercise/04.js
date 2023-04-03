@@ -94,14 +94,13 @@ function Board() {
     const moves = squaresCopy.filter(Boolean).length
 
     if (historyMoves - 1 > currentStep) {
-      const backHistorySquares = [...history.slice(0, currentStep + 1)]
+      const backHistorySquares = history.slice(0, currentStep + 1)
       setHistory([...backHistorySquares, {squares: squaresCopy}])
-      setCurrentStep(moves)
-      return
+    } else {
+      setHistory(currentHistory => [...currentHistory, {squares: squaresCopy}])
     }
 
     // setSquares(squaresCopy)
-    setHistory(currentHistory => [...currentHistory, {squares: squaresCopy}])
     setCurrentStep(moves)
   }
 
