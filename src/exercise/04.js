@@ -72,15 +72,16 @@ function Board() {
       squares: emptyBoard,
     },
   ])
-  const [step, setStep] = React.useState(0)
-  const currentHistory = history[step]
-  const squares = currentHistory.squares
+  const [currentStep, setCurrentStep] = React.useState(0)
+  const currentStepHistory = history[currentStep]
+  const squares = currentStepHistory.squares
   const nextValue = calculateNextValue(squares)
   const winner = calculateWinner(squares)
   const status = calculateStatus(winner, squares, nextValue)
+  const historyMoves = history.length
 
   function handleHistoryClick(moveIndex) {
-    setStep(moveIndex)
+    setCurrentStep(moveIndex)
   }
 
   function selectSquare(square) {
@@ -90,15 +91,23 @@ function Board() {
 
     const squaresCopy = [...squares]
     squaresCopy[square] = nextValue
+    const moves = squaresCopy.filter(Boolean).length
+
+    if (historyMoves - 1 > currentStep) {
+      const backHistorySquares = [...history.slice(0, currentStep + 1)]
+      setHistory([...backHistorySquares, {squares: squaresCopy}])
+      setCurrentStep(moves)
+      return
+    }
+
     // setSquares(squaresCopy)
     setHistory(currentHistory => [...currentHistory, {squares: squaresCopy}])
-    const moves = squaresCopy.filter(Boolean).length
-    setStep(moves)
+    setCurrentStep(moves)
   }
 
   function restart() {
     setHistory([{squares: emptyBoard}])
-    setStep(0)
+    setCurrentStep(0)
     // setSquares(emptyBoard)
   }
 
@@ -125,7 +134,7 @@ function Board() {
       </button>
       <GameInfo
         history={history}
-        currentStep={step}
+        currentStep={currentStep}
         onHistoryClick={handleHistoryClick}
       />
     </div>
