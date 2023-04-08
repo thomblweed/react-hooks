@@ -109,20 +109,15 @@ function App() {
       <div className="pokemon-info">
         {/* When the key changes, the ErrorBoundary will be unmounted and remounted. */}
         <ErrorBoundary
-          key={pokemonName}
-          fallback={
+          // key={pokemonName}
+          FallbackComponent={({resetErrorBoundary}) => (
             <>
               <p>Uh oh</p>
-              <button
-                onClick={test => {
-                  console.log(test)
-                }}
-              >
-                try again
-              </button>
+              <button onClick={resetErrorBoundary}>try again</button>
             </>
-          }
+          )}
           onReset={() => setPokemonName('')}
+          resetKeys={[pokemonName]}
         >
           <PokemonInfo pokemonName={pokemonName} />
         </ErrorBoundary>
