@@ -110,9 +110,9 @@ function App() {
         {/* When the key changes, the ErrorBoundary will be unmounted and remounted. */}
         <ErrorBoundary
           // key={pokemonName}
-          FallbackComponent={({resetErrorBoundary}) => (
+          FallbackComponent={({error, resetErrorBoundary}) => (
             <>
-              <p>Uh oh</p>
+              <p>{error}</p>
               <button onClick={resetErrorBoundary}>try again</button>
             </>
           )}
